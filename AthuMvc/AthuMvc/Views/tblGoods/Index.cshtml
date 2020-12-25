@@ -1,0 +1,107 @@
+﻿@model PagedList.PagedList<AthuMvc.Models.GoodsViewModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-large" })
+</p>
+@using (Html.BeginForm("Index", "tblGoods", FormMethod.Get))
+{<p>
+        Find By Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </p>
+
+}
+<p><a class="btn btn-success" href="@Url.Action("ExportReport")">Download Goods Information</a></p>
+<table class="table">
+    <tr>
+        <th>
+            Goods Name
+        </th>
+        <th>
+            Goods Price
+        </th>
+        <th>
+            Payment of Date
+        </th>
+        <th>
+            ImageName
+        </th>
+        <th>
+            ImageUrl
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.tblSupplier.SupplierName)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoodsName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoodsPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                <img src="@Url.Content(item.ImageUrl)" alt=@item.ImageName width="40" height="40" />
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.GoodsId }) |
+                @*@Html.ActionLink("Details", "Details", new { id = item.GoodsId }) |*@
+                <a href="#" name="details" onclick="DetailsRecord('+@item.GoodsId+')">Details</a>|
+                @Html.ActionLink("Delete", "Delete", new { id = item.GoodsId })
+            </td>
+        </tr>
+    }
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)Of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+     new { page, SortOrder = ViewBag.CurrentSort, CurrentFilter = ViewBag.CurrentFilter }))
+
+<div id="partialDiv">
+    @if (ViewBag.Details == "Show")
+    {
+        @Html.Partial("_UserDetails", Model)
+        ViewBag.Details = "";
+    }
+
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    function DetailsRecord(id) {
+        $.ajax({
+            url: "/tblGoods/Details?Id=" + id,
+            type: 'GET',
+            data: "",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $("#partialDiv").show();
+                $("#partialDiv").html(data);
+            },
+            error: function () {
+                alert("Error occured");
+            }
+        })
+    }
+
+</script>
+

@@ -1,0 +1,66 @@
+﻿@model AthuMvc.Models.GoodsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details of Goods</h2>
+
+<div>
+    <h4>GoodsViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GoodsName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoodsName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GoodsPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoodsPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.tblSupplier.SupplierName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tblSupplier.SupplierName)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GoodsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

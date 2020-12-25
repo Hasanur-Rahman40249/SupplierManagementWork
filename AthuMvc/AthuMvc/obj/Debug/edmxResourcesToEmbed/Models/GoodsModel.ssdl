@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GoodDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblGood">
+    <Key>
+      <PropertyRef Name="GoodsId" />
+    </Key>
+    <Property Name="GoodsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GoodsName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="GoodsPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DOB" Type="datetime" Nullable="false" />
+    <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ImageUrl" Type="varchar(max)" Nullable="false" />
+    <Property Name="SupplierID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblSupplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SupplierName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Role" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_tblGood_tblSupplier">
+    <End Role="tblSupplier" Type="Self.tblSupplier" Multiplicity="1" />
+    <End Role="tblGood" Type="Self.tblGood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSupplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="tblGood">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GoodDBModelStoreContainer">
+    <EntitySet Name="tblGood" EntityType="Self.tblGood" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSupplier" EntityType="Self.tblSupplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblGood_tblSupplier" Association="Self.FK_tblGood_tblSupplier">
+      <End Role="tblSupplier" EntitySet="tblSupplier" />
+      <End Role="tblGood" EntitySet="tblGood" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
